@@ -7,10 +7,8 @@
 package missions;
 
 /**
- * 
- *  Nome:João Carlos Abreu Lopes 
-    Número:8190221
-    Turma:T1
+ * This class stores the information about the simulations relative to the version.
+ * @author lopes
  */
-public class Version {
+public class Version implements IVersion{
 }

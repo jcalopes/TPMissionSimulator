@@ -6,11 +6,20 @@
 
 package interfaces;
 
+import linkedListSentinela.UnorderedLinkedList;
+
 /**
  *
  * @author JoaoLopes 8190221
  */
 public interface IMission {
+    
+    /**
+     * Getter for the versions of the mission.
+     * @return The versions of the mission.
+     */
+    public UnorderedLinkedList<IVersion> getVersions();
+    
     /**
      * Start an automatic simulation with the information of the building, target and enemies
      * from a specific version.
