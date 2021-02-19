@@ -6,11 +6,41 @@
 
 package missions;
 
+import interfaces.IMission;
+import interfaces.SimulationsManagement;
+import linkedListSentinela.OrderedLinkedList;
+
 /**
  * 
  *  Nome:João Carlos Abreu Lopes 
     Número:8190221
     Turma:T1
  */
-public class Missions {
+public class Missions implements SimulationsManagement {
+    private OrderedLinkedList<IMission> missions;
+
+    @Override
+    public OrderedLinkedList<IMission> getMissions() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void importMission(String file) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String exportManualSimulations(String codMission) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getAllMissionsByCode() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getManualSimulationsResults(String codMission) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

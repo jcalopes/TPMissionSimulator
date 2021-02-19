@@ -4,14 +4,12 @@
  * and open the template in the editor.
  */
 
-package missions;
+package interfaces;
 
 /**
- * 
- *  Nome:João Carlos Abreu Lopes 
-    Número:8190221
-    Turma:T1
+ *
+ * @author JoaoLopes 8190221
  */
-public class Mission {
+public interface ISimulation {
 
 }
