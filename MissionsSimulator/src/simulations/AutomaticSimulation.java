@@ -6,11 +6,19 @@
 
 package simulations;
 
+import interfaces.IAutomaticSimulation;
+
 /**
- * 
- *  Nome:João Carlos Abreu Lopes 
-    Número:8190221
-    Turma:T1
+/**
+ * This class store the information about an automatic simulation that can be performed
+ * in the context of one mission.
  */
-public class AutomaticSimulation {
+public class AutomaticSimulation extends Simulation implements IAutomaticSimulation{
+   
+    /**
+     * Constructor for the automatic simulation.
+     */
+    public AutomaticSimulation(){
+        super();
+    }
 }

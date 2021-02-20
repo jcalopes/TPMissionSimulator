@@ -96,4 +96,10 @@ public interface IVersion {
      * @param exits 
      */
     public void setExits(UnorderedLinkedList<Division> exits);
+    
+    /**
+     * Setter for the structure of the building used for the simulations.
+     * @param building Graph of the building.
+     */
+    public void setBuilding(WeightedAdjMatrixDiGraph<Division> building);
 }

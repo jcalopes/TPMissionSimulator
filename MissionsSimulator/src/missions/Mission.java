@@ -6,6 +6,7 @@
 package missions;
 
 import exceptions.NullElementValueException;
+import exceptions.VersionAlreadyExistException;
 import interfaces.IMission;
 import interfaces.IVersion;
 import linkedListSentinela.UnorderedLinkedList;
@@ -14,14 +15,14 @@ import linkedListSentinela.UnorderedLinkedList;
  * This class store all the information about one mission.
  */
 public class Mission implements IMission, Comparable<IMission> {
-
+    private String codMission;
     private UnorderedLinkedList<IVersion> versions;
 
     /**
      * Constructor for the mission.
      */
-    public Mission() {
-
+    public Mission(String code) {
+        this.codMission=code;
     }
 
     /**
@@ -30,7 +31,8 @@ public class Mission implements IMission, Comparable<IMission> {
      * @param version Version to be added.
      * @throws NullElementValueException If the parameter is null.
      */
-    public Mission(IVersion version) throws NullElementValueException {
+    public Mission(String code,IVersion version) throws NullElementValueException {
+        this.codMission=code;
         this.versions = new UnorderedLinkedList<>();
         this.versions.addToRear(version);
     }
@@ -72,5 +74,23 @@ public class Mission implements IMission, Comparable<IMission> {
     @Override
     public UnorderedLinkedList<IVersion> getVersions() {
         return this.versions;
+    }
+     
+    /**
+     * Add a new version of this mission.
+     * @param version Version to be added.
+     * @throws NullElementValueException If the parameter is null
+     * @throws VersionAlreadyExistException If the code version already exist in this mission.
+     */
+    public void addVersion(IVersion version) throws NullElementValueException, VersionAlreadyExistException{
+        if(version==null){
+            throw new NullElementValueException("The version has null value");
+        }
+        
+        if(this.versions.contains(version)){
+            throw new VersionAlreadyExistException("This version already exist in this mission");
+        }
+        
+        this.versions.addToRear(version);
     }
 }

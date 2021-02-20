@@ -27,6 +27,8 @@ public class Division implements IDivision{
      */
     public Division(String name){
         this.name=name;
+        this.totalDamage=0;
+        this.enemies=new UnorderedLinkedList<>();
     }
 
     /**

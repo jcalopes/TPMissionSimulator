@@ -80,6 +80,14 @@ public class Version implements IVersion{
     }
 
     /**
+     * Setter for the structure of the building used for the simulations.
+     * @param building Graph of the building.
+     */
+    public void setBuilding(WeightedAdjMatrixDiGraph<Division> building) {
+        this.building = building;
+    }
+    
+    /**
      * Getter for building representation that includes all the divisions and 
      * their conexions.
      * @return The graph of the building.
@@ -148,6 +156,17 @@ public class Version implements IVersion{
     @Override
     public void setExits(UnorderedLinkedList<Division> exits) {
         this.exits = exits;
+    }
+    
+    @Override
+    public boolean equals(Object obj){
+        if(obj!=null){
+            IVersion temp=(Version)obj;
+            if(this.getCodVersion()==temp.getCodVersion()){
+                return true;
+            }
+        }
+        return false;
     }
        
 }

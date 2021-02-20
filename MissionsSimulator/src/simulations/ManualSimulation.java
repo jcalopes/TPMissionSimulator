@@ -9,7 +9,8 @@ package simulations;
 import interfaces.IManualSimulation;
 
 /**
- * 
+ * This class store the information about a manual simulation that can be performed
+ * in the context of one mission.
  */
 public class ManualSimulation extends Simulation implements IManualSimulation,Comparable<IManualSimulation>{
 
@@ -17,6 +18,7 @@ public class ManualSimulation extends Simulation implements IManualSimulation,Co
     private boolean recoverDamage;//powerUp recover from last damage
     
     public ManualSimulation(){
+        super();
         this.restoreLife=true;
         this.recoverDamage=true;
     }

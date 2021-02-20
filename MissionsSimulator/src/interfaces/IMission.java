@@ -6,6 +6,8 @@
 
 package interfaces;
 
+import exceptions.NullElementValueException;
+import exceptions.VersionAlreadyExistException;
 import linkedListSentinela.UnorderedLinkedList;
 
 /**
@@ -35,4 +37,12 @@ public interface IMission {
      * @param version Version of the mission.
      */
     public void startManualSimulation(String codMission,int version);
+    
+    /**
+     * Add a new version of this mission.
+     * @param version Version to be added.
+     * @throws NullElementValueException If the parameter is null
+     * @throws VersionAlreadyExistException If the code version already exist in this mission.
+     */
+    public void addVersion(IVersion version) throws NullElementValueException, VersionAlreadyExistException;
 }
