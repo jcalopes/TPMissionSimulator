@@ -6,11 +6,16 @@
 
 package simulations;
 
+import interfaces.IManualSimulation;
+
 /**
  * 
- *  Nome:João Carlos Abreu Lopes 
-    Número:8190221
-    Turma:T1
  */
-public class ManualSimulation {
+public class ManualSimulation extends Simulation implements IManualSimulation,Comparable<IManualSimulation>{
+
+    @Override
+    public int compareTo(IManualSimulation o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }

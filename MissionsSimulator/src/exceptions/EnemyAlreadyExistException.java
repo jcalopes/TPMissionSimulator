@@ -4,12 +4,15 @@
  * and open the template in the editor.
  */
 
-package interfaces;
+package exceptions;
 
 /**
- *
- * @author JoaoLopes 8190221
+ * 
  */
-public interface IAutomaticSimulation extends ISimulation{
-
+public class EnemyAlreadyExistException extends Exception {
+    
+    public EnemyAlreadyExistException(String msg){
+        super(msg);
+    }
+    
 }

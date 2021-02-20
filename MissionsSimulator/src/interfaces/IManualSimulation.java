@@ -10,6 +10,6 @@ package interfaces;
  *
  * @author JoaoLopes 8190221
  */
-public interface IManualSimulation {
+public interface IManualSimulation extends ISimulation {
 
 }
