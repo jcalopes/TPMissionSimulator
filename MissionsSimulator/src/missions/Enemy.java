@@ -1,5 +1,7 @@
 package missions;
 
+import java.util.Objects;
+
 /**
  * This class store the information about an enemy.
  */
@@ -53,5 +55,16 @@ public class Enemy {
      */
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj!=null && obj instanceof Enemy){
+            Enemy temp=(Enemy)obj;
+            if(this.getName().equals(temp.getName())){
+                return true;
+            }
+        }
+        return false;
     }
 }
