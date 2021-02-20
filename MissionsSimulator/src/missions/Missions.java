@@ -9,13 +9,13 @@ package missions;
 
 import exceptions.NullElementValueException;
 import interfaces.IMission;
-import interfaces.SimulationsManagement;
 import linkedListSentinela.OrderedLinkedList;
+import interfaces.MissionsManagement;
 
 /**
  * This class store a set of the missions.
  */
-public class Missions implements SimulationsManagement {
+public class Missions implements MissionsManagement {
     private OrderedLinkedList<IMission> missions;
 
     /**

@@ -6,6 +6,7 @@
 
 package interfaces;
 
+import exceptions.NullElementValueException;
 import linkedListSentinela.UnorderedLinkedList;
 import missions.Division;
 
@@ -18,7 +19,7 @@ public interface ISimulation {
      * Getter for the route of the simulation.
      * @return The route.
      */
-    public UnorderedLinkedList<Division> getPath();
+    public UnorderedLinkedList<IDivision> getPath();
 
     /**
      * Getter for the remaining life of the simulator.
@@ -44,4 +45,16 @@ public interface ISimulation {
      */
     public void setSuccess(boolean success);
     
+    /**
+     * Add a new division where the simulator or user passed in the building.
+     * @param div
+     * @throws NullElementValueException 
+     */
+    public void addDivision(IDivision div) throws NullElementValueException;
+
+    /**
+     * Insert the route of the simulation where the simulator or user tested in the building.
+     * @param path Path with the set of divisions.
+     */
+    public void setPath(UnorderedLinkedList<IDivision> path);
 }

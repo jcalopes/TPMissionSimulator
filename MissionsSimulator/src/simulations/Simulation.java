@@ -6,9 +6,10 @@
 
 package simulations;
 
+import exceptions.NullElementValueException;
+import interfaces.IDivision;
 import interfaces.ISimulation;
 import linkedListSentinela.UnorderedLinkedList;
-import missions.Division;
 
 
 /**
@@ -16,7 +17,7 @@ import missions.Division;
  * @author lopes
  */
 public abstract class Simulation implements ISimulation{
-    private UnorderedLinkedList<Division> path;
+    private UnorderedLinkedList<IDivision> path;
     private int remainingLife;
     private boolean success;
     private final int DEFAULT_LIFE=100;
@@ -35,7 +36,7 @@ public abstract class Simulation implements ISimulation{
      * @return The route.
      */
     @Override
-    public UnorderedLinkedList<Division> getPath() {
+    public UnorderedLinkedList<IDivision> getPath() {
         return path;
     }
 
@@ -74,5 +75,27 @@ public abstract class Simulation implements ISimulation{
     public void setSuccess(boolean success) {
         this.success = success;
     }
-     
+    
+    /**
+     * Add a new division where the simulator or user passed in the building.
+     * @param div
+     * @throws NullElementValueException 
+     */
+    @Override
+    public void addDivision(IDivision div) throws NullElementValueException{       
+        this.path.addToRear(div);
+    }
+
+    /**
+     * Insert the route of the simulation where the simulator or user tested in the building.
+     * @param path Path with the set of divisions.
+     */
+    @Override
+    public void setPath(UnorderedLinkedList<IDivision> path) {
+        this.path = path;
+    }
+    
+    
+    
+        
 }

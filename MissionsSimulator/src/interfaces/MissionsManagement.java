@@ -12,7 +12,7 @@ import linkedListSentinela.OrderedLinkedList;
  *
  * @author JoaoLopes 8190221
  */
-public interface SimulationsManagement {
+public interface MissionsManagement {
     /**
      * Getter for the missions stored.
      * @return Missions
