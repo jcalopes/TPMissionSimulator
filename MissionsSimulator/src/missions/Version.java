@@ -5,6 +5,7 @@ import interfaces.IAutomaticSimulation;
 import interfaces.IManualSimulation;
 import interfaces.IVersion;
 import linkedListSentinela.OrderedLinkedList;
+import linkedListSentinela.UnorderedLinkedList;
 
 /**
  * This class stores the information about the simulations relative to the version.
@@ -16,6 +17,9 @@ public class Version implements IVersion{
     private OrderedLinkedList<IManualSimulation> manualSimulation;
     private int numManualSimulations;
     private WeightedAdjMatrixDiGraph<Division> building;
+    private Target target;
+    private UnorderedLinkedList<Division> entries;
+    private UnorderedLinkedList<Division> exits;
     
     /**
      * Constructor for the version of the mission.
@@ -25,6 +29,9 @@ public class Version implements IVersion{
         this.manualSimulation=new OrderedLinkedList<>();
         this.building=new WeightedAdjMatrixDiGraph<>();
         this.numManualSimulations=0;
+        this.target=null;
+        this.exits=new UnorderedLinkedList<>();
+        this.entries=new UnorderedLinkedList<>();
     }
 
     /**
@@ -89,6 +96,58 @@ public class Version implements IVersion{
     @Override
     public void setNumManualSimulations(int numManualSimulations) {
         this.numManualSimulations = numManualSimulations;
+    }
+
+    /**
+     * Getter for the target of the mission.
+     * @return Target of the mission.
+     */
+    @Override
+    public Target getTarget() {
+        return target;
+    }
+
+    /**
+     * Setter for the target of the mission.
+     * @param target Target of the mission.
+     */
+    @Override
+    public void setTarget(Target target) {
+        this.target = target;
+    }
+
+    /**
+     * Getter for the entries of the building.
+     * @return List of the entries.
+     */
+    public UnorderedLinkedList<Division> getEntries() {
+        return entries;
+    }
+
+    /**
+     * Setter for the entries of the building.
+     * @param entries Entries of the building.
+     */
+    public void setEntries(UnorderedLinkedList<Division> entries) {
+        this.entries = entries;
+    }
+
+    /**
+     * Getter for the exits of the building
+     * @return List of exits.
+     */
+    @Override
+    public UnorderedLinkedList<Division> getExits() {
+        return exits;
+    }
+
+    /**
+     * Setter for the exits of the building.
+     * @param exits 
+     */
+    @Override
+    public void setExits(UnorderedLinkedList<Division> exits) {
+        this.exits = exits;
     }
        
 }

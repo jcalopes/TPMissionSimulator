@@ -8,7 +8,9 @@ package interfaces;
 
 import graph.WeightedAdjMatrixDiGraph;
 import linkedListSentinela.OrderedLinkedList;
+import linkedListSentinela.UnorderedLinkedList;
 import missions.Division;
+import missions.Target;
 
 /**
  *
@@ -58,4 +60,40 @@ public interface IVersion {
      * @param numManualSimulations Number of the manual simulations.
      */
     public void setNumManualSimulations(int numManualSimulations);
+    
+     /**
+     * Getter for the target of the mission.
+     * @return Target of the mission.
+     */
+    public Target getTarget();
+
+    /**
+     * Setter for the target of the mission.
+     * @param target Target of the mission.
+     */
+    public void setTarget(Target target);
+    
+     /**
+     * Getter for the entries of the building.
+     * @return List of the entries.
+     */
+    public UnorderedLinkedList<Division> getEntries();
+    
+    /**
+     * Setter for the entries of the building.
+     * @param entries Entries of the building.
+     */
+    public void setEntries(UnorderedLinkedList<Division> entries);
+
+    /**
+     * Getter for the exits of the building
+     * @return List of exits.
+     */
+    public UnorderedLinkedList<Division> getExits();
+
+    /**
+     * Setter for the exits of the building.
+     * @param exits 
+     */
+    public void setExits(UnorderedLinkedList<Division> exits);
 }

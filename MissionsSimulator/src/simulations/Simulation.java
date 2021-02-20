@@ -6,11 +6,17 @@
 
 package simulations;
 
+import linkedListSentinela.UnorderedLinkedList;
+import missions.Division;
+
+
 /**
- * 
- *  Nome:João Carlos Abreu Lopes 
-    Número:8190221
-    Turma:T1
+ * This class store the information about the simulation.
+ * @author lopes
  */
-public class Simulation {
+public abstract class Simulation {
+
+    
+    
+      
 }
