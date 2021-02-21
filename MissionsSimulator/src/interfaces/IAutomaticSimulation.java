@@ -11,5 +11,11 @@ package interfaces;
  * @author JoaoLopes 8190221
  */
 public interface IAutomaticSimulation extends ISimulation{
-
+     /**
+     * Return all the information about an automatic simulation.
+     *
+     * @return Automatic Simulation Details.
+     */
+    @Override
+    public String toString();
 }

@@ -9,6 +9,7 @@ import exceptions.NullElementValueException;
 import exceptions.VersionAlreadyExistException;
 import interfaces.IMission;
 import interfaces.IVersion;
+import java.util.Iterator;
 import linkedListSentinela.UnorderedLinkedList;
 
 /**
@@ -23,6 +24,7 @@ public class Mission implements IMission, Comparable<IMission> {
      */
     public Mission(String code) {
         this.codMission=code;
+        this.versions=new UnorderedLinkedList<>();
     }
 
     /**
@@ -82,6 +84,7 @@ public class Mission implements IMission, Comparable<IMission> {
      * @throws NullElementValueException If the parameter is null
      * @throws VersionAlreadyExistException If the code version already exist in this mission.
      */
+    @Override
     public void addVersion(IVersion version) throws NullElementValueException, VersionAlreadyExistException{
         if(version==null){
             throw new NullElementValueException("The version has null value");
@@ -92,5 +95,44 @@ public class Mission implements IMission, Comparable<IMission> {
         }
         
         this.versions.addToRear(version);
+    }
+
+    /**
+     * Getter for the code mission.
+     * @return Code mission
+     */
+    @Override
+    public String getCodMission() {
+        return codMission;
+    }    
+    
+    /**
+     * Return all the information about the mission.
+     * @return Mission Details
+     */
+    @Override
+    public String toString(){
+        String info="Código Missão: " +this.getCodMission();
+        Iterator<IVersion> versions=this.getVersions().iterator();
+        
+        while(versions.hasNext()){
+            info+=versions.next().toString();
+        }
+        return info;
+    }
+    
+    /**
+     * Check if a specific object is equal the mission.
+     * @param obj Object to be compared.
+     * @return 
+     */
+    public boolean equals(Object obj){
+        if(obj!=null && obj instanceof IMission){
+            IMission mission=(Mission)obj;
+            if(this.getCodMission().equals(mission.getCodMission())){
+                return true;
+            }
+        }
+        return false;
     }
 }

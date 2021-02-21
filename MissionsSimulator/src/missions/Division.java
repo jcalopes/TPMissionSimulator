@@ -138,4 +138,17 @@ public class Division implements IDivision{
         }
         return (this.enemies.contains(enemy));
     }
+    
+    /**
+     * Return all the information about this division.
+     * @return Division Information
+     */
+    @Override
+    public String toString(){
+        String info="";
+        info+=this.getName();
+        return info;
+    }
+    
+    
 }

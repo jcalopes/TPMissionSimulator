@@ -17,6 +17,7 @@ import linkedListSentinela.UnorderedLinkedList;
  * @author lopes
  */
 public abstract class Simulation implements ISimulation{
+    private int version;
     private UnorderedLinkedList<IDivision> path;
     private int remainingLife;
     private boolean success;
@@ -93,6 +94,24 @@ public abstract class Simulation implements ISimulation{
     @Override
     public void setPath(UnorderedLinkedList<IDivision> path) {
         this.path = path;
+    }
+
+    /**
+     * Getter for the version of this simulation.
+     * @return Version
+     */
+    @Override
+    public int getVersion() {
+        return version;
+    }
+
+    /**
+     * Setter for the version of this simulation.
+     * @param version Version to be added.
+     */
+    @Override
+    public void setVersion(int version) {
+        this.version = version;
     }
     
     

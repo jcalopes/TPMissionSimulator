@@ -45,4 +45,25 @@ public interface IMission {
      * @throws VersionAlreadyExistException If the code version already exist in this mission.
      */
     public void addVersion(IVersion version) throws NullElementValueException, VersionAlreadyExistException;
+    
+      /**
+     * Getter for the code mission.
+     * @return Code mission
+     */
+    public String getCodMission();
+    
+    /**
+     * Check if a specific object is equal the mission.
+     * @param obj Object to be compared.
+     * @return 
+     */
+    @Override
+    public boolean equals(Object obj);
+    
+    /**
+     * Return all the information about the mission.
+     * @return Mission Details
+     */
+    @Override
+    public String toString();
 }

@@ -6,7 +6,20 @@
 
 package interfaces;
 
+import exceptions.DivisionsClosedException;
+import exceptions.ElementNotFoundException;
+import exceptions.EnemyAlreadyExistException;
+import exceptions.InvalidOperationException;
+import exceptions.InvalidWeightValueException;
+import exceptions.NoDivisionsException;
+import exceptions.NoEntriesException;
+import exceptions.NoTargetDefinedException;
+import exceptions.NullElementValueException;
+import exceptions.RepeatedElementException;
+import exceptions.VersionAlreadyExistException;
+import java.io.IOException;
 import linkedListSentinela.OrderedLinkedList;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -23,7 +36,10 @@ public interface MissionsManagement {
      * Import from the json file, one version of the mission.
      * @param file File path to load the mission.
      */
-    public void importMission(String file);
+    public void importMission(String file)throws IOException,ParseException,NullElementValueException,
+            RepeatedElementException,ElementNotFoundException,InvalidWeightValueException,
+            NoEntriesException,EnemyAlreadyExistException,InvalidOperationException,VersionAlreadyExistException,
+            NoDivisionsException,DivisionsClosedException,NoTargetDefinedException;
     
     /**
      * Create a json file with all manual simulations from a specific mission. 

@@ -74,4 +74,11 @@ public interface IDivision{
      */
     @Override
     public boolean equals(Object obj);
+    
+     /**
+     * Return all the information about this division.
+     * @return Division Information
+     */
+    @Override
+    public String toString();
 }

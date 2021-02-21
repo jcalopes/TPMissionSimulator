@@ -200,7 +200,6 @@ public class ImporterData {
             JSONArray jEnemies) throws NullElementValueException, 
             ElementNotFoundException, RepeatedElementException, EnemyAlreadyExistException, InvalidOperationException{
         
-        IDivision[] divisions=building.getVertices();
         for(int i=0;i<jEnemies.size();i++){
             JSONObject jEnemy=(JSONObject)jEnemies.get(i); 
             Enemy currentEnemy=new Enemy((String) jEnemy.get("nome"), (int) ((long) jEnemy.get("poder")));
@@ -208,7 +207,6 @@ public class ImporterData {
             Division currentDivision=new Division((String) jEnemy.get("divisao"));           
             currentDivision=building.getVertex(currentDivision);
             currentDivision.addEnemy(currentEnemy);
-            currentDivision.setTotalDamage(currentDivision.getTotalDamage()+currentEnemy.getDamage());
                        
             for(int j=0;j<building.size();j++){
                 if(building.isNeighbor(building.getVertex(j), currentDivision)){

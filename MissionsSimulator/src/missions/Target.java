@@ -62,5 +62,17 @@ public class Target {
         this.type = type;
     }
     
+    /**
+     * Return all the infomration about the target.
+     * @return All information.
+     */
+    @Override
+    public String toString(){
+        String info="";
+        info+="\n    Divisão: "+this.getDivision();
+        info+="\n    Tipo: "+this.getType();
+        return info;
+    }
+    
     
 }

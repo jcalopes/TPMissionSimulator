@@ -55,6 +55,12 @@ public class Enemy {
         this.damage = damage;
     }
 
+    /**
+     * Check if an enemy is equal with another object.
+     * @param obj Object to be compared.
+     * @return True if they are equals.
+     * @return False if they are not equals.
+     */
     @Override
     public boolean equals(Object obj) {
         if(obj!=null && obj instanceof Enemy){
@@ -64,5 +70,17 @@ public class Enemy {
             }
         }
         return false;
+    }
+    
+    /**
+     * Return all the information about an enemy.
+     * @return Enemy information.
+     */
+    @Override
+    public String toString(){
+        String info="";
+        info+="\n Nome: "+this.getName();
+        info+="\n Poder: "+this.getDamage();
+        return info;
     }
 }

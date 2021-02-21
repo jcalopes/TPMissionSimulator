@@ -57,4 +57,16 @@ public interface ISimulation {
      * @param path Path with the set of divisions.
      */
     public void setPath(UnorderedLinkedList<IDivision> path);
+    
+      /**
+     * Getter for the version of this simulation.
+     * @return Version
+     */
+    public int getVersion();
+
+    /**
+     * Setter for the version of this simulation.
+     * @param version Version to be added.
+     */
+    public void setVersion(int version);
 }

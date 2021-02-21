@@ -7,10 +7,25 @@
 
 package missions;
 
+import exceptions.DivisionsClosedException;
+import exceptions.ElementNotFoundException;
+import exceptions.EnemyAlreadyExistException;
+import exceptions.InvalidOperationException;
+import exceptions.InvalidWeightValueException;
+import exceptions.NoDivisionsException;
+import exceptions.NoEntriesException;
+import exceptions.NoTargetDefinedException;
 import exceptions.NullElementValueException;
+import exceptions.RepeatedElementException;
+import exceptions.VersionAlreadyExistException;
 import interfaces.IMission;
+import interfaces.IVersion;
 import linkedListSentinela.OrderedLinkedList;
 import interfaces.MissionsManagement;
+import java.io.IOException;
+import java.util.Iterator;
+import org.json.simple.parser.ParseException;
+import readWriteJson.ImporterData;
 
 /**
  * This class store a set of the missions.
@@ -44,9 +59,27 @@ public class Missions implements MissionsManagement {
         return this.missions;
     }
 
+   
     @Override
-    public void importMission(String file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void importMission(String file) throws IOException,ParseException,NullElementValueException,
+            RepeatedElementException,ElementNotFoundException,InvalidWeightValueException,
+            NoEntriesException,EnemyAlreadyExistException,InvalidOperationException,VersionAlreadyExistException,
+            NoDivisionsException,DivisionsClosedException,NoTargetDefinedException{
+        
+            IMission mission=ImporterData.importMission(file);
+            if(this.missions.contains(mission)){
+                IVersion importedVersion=mission.getVersions().first();
+                if(this.missions.getElement(mission).getVersions().contains(importedVersion)){
+                    throw new VersionAlreadyExistException("This version already exist in this mission");
+                }
+                else{
+                    this.missions.getElement(mission).addVersion(importedVersion);
+                }
+            }
+            else{
+                this.missions.add(mission);
+            }
+   
     }
 
     @Override
@@ -63,4 +96,15 @@ public class Missions implements MissionsManagement {
     public String getManualSimulationsResults(String codMission) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    @Override
+    public String toString(){
+        String info="";
+        Iterator<IMission> missions=this.missions.iterator();
+        while(missions.hasNext()){
+            info+="\n"+missions.next().toString();
+        }
+        return info;
+    }
+    
 }
