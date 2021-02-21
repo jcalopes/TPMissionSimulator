@@ -58,4 +58,20 @@ public interface IDivision{
      * @param totalDamage Total damage of this division.
      */
     public void setTotalDamage(int totalDamage);
+    
+    /**
+     * Check if contains an specific enemy in the division.
+     * @param enemy Enemy to be searched.
+     * @return True If exist the enemy in the division. 
+     * @return False If doesn´t exist the enemy in the division. 
+     */
+    public boolean containEnemy(Enemy enemy)throws NullElementValueException;
+    
+    /**
+     * Compare with another object and check if are equals.
+     * @param obj Objecto to be compared.
+     * @return True if the name of their divisions are equals.
+     */
+    @Override
+    public boolean equals(Object obj);
 }

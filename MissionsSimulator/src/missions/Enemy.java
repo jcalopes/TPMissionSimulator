@@ -1,7 +1,5 @@
 package missions;
 
-import java.util.Objects;
-
 /**
  * This class store the information about an enemy.
  */

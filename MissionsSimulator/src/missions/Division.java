@@ -107,4 +107,35 @@ public class Division implements IDivision{
     public void setTotalDamage(int totalDamage) {
         this.totalDamage = totalDamage;
     }  
+    
+    /**
+     * Compare with another object and check if are equals.
+     * @param obj Objecto to be compared.
+     * @return True if the name of their divisions are equals.
+     */
+    @Override
+    public boolean equals(Object obj){
+        if(obj!=null && obj instanceof Division){
+            Division div=(Division)obj;
+            if(this.getName().equals(div.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if contains an specific enemy in the division.
+     *
+     * @param enemy Enemy to be searched.
+     * @return True If exist the enemy in the division.
+     * @return False If doesn´t exist the enemy in the division.
+     */
+    @Override
+    public boolean containEnemy(Enemy enemy) throws NullElementValueException {
+        if (enemy == null) {
+            throw new NullElementValueException("The enemy is null");
+        }
+        return (this.enemies.contains(enemy));
+    }
 }
