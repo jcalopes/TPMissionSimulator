@@ -5,6 +5,8 @@
  */
 package interfaces;
 
+import exceptions.ElementNotFoundException;
+import exceptions.NullElementValueException;
 import graph.WeightedAdjMatrixDiGraph;
 import linkedListSentinela.OrderedLinkedList;
 import linkedListSentinela.UnorderedLinkedList;
@@ -117,6 +119,12 @@ public interface IVersion {
      */
     public void setBuilding(WeightedAdjMatrixDiGraph<Division> building);
 
+    /**
+     * Building representation with their divisions and conections.
+     * @return Map 
+     */
+    public String printMap() throws NullElementValueException, ElementNotFoundException;
+            
     /**
      * Return some details about this mission.
      *

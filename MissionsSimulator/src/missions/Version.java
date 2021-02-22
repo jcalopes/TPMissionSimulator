@@ -1,5 +1,7 @@
 package missions;
 
+import exceptions.ElementNotFoundException;
+import exceptions.NullElementValueException;
 import graph.WeightedAdjMatrixDiGraph;
 import interfaces.IAutomaticSimulation;
 import interfaces.IManualSimulation;
@@ -196,6 +198,25 @@ public class Version implements IVersion {
             }
         }
         return false;
+    }
+    
+    /**
+     * Building representation with their divisions and conections.
+     * @return Map 
+     */
+    public String printMap() throws NullElementValueException, ElementNotFoundException{
+        String info="\n Ligações: ";
+        for(int i=0;i<this.building.size();i++){
+            for(int j=0;j<this.building.size();j++){
+                if(this.building.isNeighbor(this.building.getVertex(i),this.building.getVertex(j))){
+                    Division vertex1=this.building.getVertex(i);
+                    Division vertex2=this.building.getVertex(j);
+                    info+="\n   "+vertex1.getName()+" -- "
+                            +this.building.getEdgeCost(vertex1, vertex2)+"-> "+vertex2.getName();
+                }
+            }
+        }
+        return info;
     }
 
     /**
