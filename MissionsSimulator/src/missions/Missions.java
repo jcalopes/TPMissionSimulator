@@ -93,7 +93,7 @@ public class Missions implements MissionsManagement {
     }
 
     @Override
-    public String getManualSimulationsResults(String codMission) {
+    public String getManualSimulationsResults(String codMission,int version) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

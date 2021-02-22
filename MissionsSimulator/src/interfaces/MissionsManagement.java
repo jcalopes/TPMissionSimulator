@@ -60,6 +60,6 @@ public interface MissionsManagement {
      * @param codMission Mission to export the results of manual simulations.
      * @return Results of manual simulations.
      */
-    public String getManualSimulationsResults(String codMission);
+    public String getManualSimulationsResults(String codMission,int version);
       
 }
