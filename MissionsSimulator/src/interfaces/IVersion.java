@@ -120,6 +120,12 @@ public interface IVersion {
     public void setBuilding(WeightedAdjMatrixDiGraph<Division> building);
 
     /**
+     * Setter for automatic simulation.
+     * @param autoSimulation Simulation to be added.
+     */
+    public void setAutoSimulation(IAutomaticSimulation autoSimulation);
+    
+    /**
      * Building representation with their divisions and conections.
      * @return Map 
      */

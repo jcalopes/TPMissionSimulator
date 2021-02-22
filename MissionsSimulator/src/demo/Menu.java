@@ -1,3 +1,4 @@
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -72,12 +73,12 @@ public class Menu {
                 case 1: {
                     try {
                         showImport();
-                    } catch (IOException | ParseException 
+                    } catch (IOException | ParseException
                             | NullElementValueException | RepeatedElementException | ElementNotFoundException
                             | InvalidWeightValueException | NoEntriesException | EnemyAlreadyExistException
                             | InvalidOperationException | VersionAlreadyExistException | NoDivisionsException
                             | DivisionsClosedException | NoTargetDefinedException ex) {
-                        System.out.println(ex + "\n Mapa inválido.Verifique mapa ou caminho do ficheiro." );
+                        System.out.println(ex + "\n Mapa inválido.Verifique mapa ou caminho do ficheiro.");
                     }
                 }
                 break;
@@ -85,7 +86,12 @@ public class Menu {
                     System.out.println(showAvailableMaps());
                     break;
                 case 3:
+                    try {
+                        showStartAutomaticSimulation();
+                    } catch (ElementNotFoundException | NullElementValueException ex) {
+                        System.out.println(ex + "\n Dados inválidos.");}
                     break;
+
                 case 4:
                     break;
                 case 5:
@@ -258,6 +264,33 @@ public class Menu {
         int version=inputVersion.nextInt();
         
         System.out.println(this.missions.getManualSimulationsResults(choosenMission, version));
+    }
+    
+    public void showStartAutomaticSimulation() throws ElementNotFoundException, NullElementValueException{
+        System.out.println("\n Selecione uma missão:");
+        Iterator<IMission> missions=this.missions.getMissions().iterator();
+        while (missions.hasNext()) {
+            System.out.println("\n    "+missions.next().getCodMission());            
+        }
+        
+        Scanner inputMission = new Scanner(System.in, "latin1");
+        Scanner inputVersion = new Scanner(System.in, "latin1");
+         
+        System.out.println("\n Missão: ");
+        String choosenMission=inputMission.nextLine();
+        
+        IMission mission=new Mission(choosenMission);
+        mission=this.missions.getMissions().getElement(mission);
+        Iterator<IVersion> versions=mission.getVersions().iterator();
+        
+        System.out.println("\n Selecione uma versão:");
+        while(versions.hasNext()){
+            System.out.println("\n    "+versions.next().getCodVersion());
+        }
+        System.out.println("\n Versão: ");
+        int version=inputVersion.nextInt();
+        
+        mission.startAutomaticSimulation(version);       
     }
  
 }

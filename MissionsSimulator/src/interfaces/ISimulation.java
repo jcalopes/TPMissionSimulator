@@ -19,7 +19,7 @@ public interface ISimulation {
      * Getter for the route of the simulation.
      * @return The route.
      */
-    public UnorderedLinkedList<IDivision> getPath();
+    public UnorderedLinkedList<Division> getPath();
 
     /**
      * Getter for the remaining life of the simulator.
@@ -50,13 +50,13 @@ public interface ISimulation {
      * @param div
      * @throws NullElementValueException 
      */
-    public void addDivision(IDivision div) throws NullElementValueException;
+    public void addDivision(Division div) throws NullElementValueException;
 
     /**
      * Insert the route of the simulation where the simulator or user tested in the building.
      * @param path Path with the set of divisions.
      */
-    public void setPath(UnorderedLinkedList<IDivision> path);
+    public void setPath(UnorderedLinkedList<Division> path);
     
       /**
      * Getter for the version of this simulation.

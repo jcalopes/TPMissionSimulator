@@ -7,9 +7,9 @@
 package simulations;
 
 import exceptions.NullElementValueException;
-import interfaces.IDivision;
 import interfaces.ISimulation;
 import linkedListSentinela.UnorderedLinkedList;
+import missions.Division;
 
 
 /**
@@ -18,7 +18,7 @@ import linkedListSentinela.UnorderedLinkedList;
  */
 public abstract class Simulation implements ISimulation{
     private int version;
-    private UnorderedLinkedList<IDivision> path;
+    private UnorderedLinkedList<Division> path;
     private int remainingLife;
     private boolean success;
     private final int DEFAULT_LIFE=100;
@@ -37,7 +37,7 @@ public abstract class Simulation implements ISimulation{
      * @return The route.
      */
     @Override
-    public UnorderedLinkedList<IDivision> getPath() {
+    public UnorderedLinkedList<Division> getPath() {
         return path;
     }
 
@@ -83,7 +83,7 @@ public abstract class Simulation implements ISimulation{
      * @throws NullElementValueException 
      */
     @Override
-    public void addDivision(IDivision div) throws NullElementValueException{       
+    public void addDivision(Division div) throws NullElementValueException{       
         this.path.addToRear(div);
     }
 
@@ -92,7 +92,7 @@ public abstract class Simulation implements ISimulation{
      * @param path Path with the set of divisions.
      */
     @Override
-    public void setPath(UnorderedLinkedList<IDivision> path) {
+    public void setPath(UnorderedLinkedList<Division> path) {
         this.path = path;
     }
 

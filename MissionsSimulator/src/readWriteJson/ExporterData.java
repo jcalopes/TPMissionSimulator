@@ -14,6 +14,7 @@ import interfaces.IVersion;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
+import missions.Division;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -51,7 +52,7 @@ public class ExporterData {
             }    
             
             JSONArray trajetoPercorrido=new JSONArray();
-            Iterator<IDivision> divisoes=current.getPath().iterator();
+            Iterator<Division> divisoes=current.getPath().iterator();
             
             while(divisoes.hasNext()){
                 trajetoPercorrido.add(divisoes.next().getName());

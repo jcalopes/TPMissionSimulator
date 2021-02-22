@@ -163,6 +163,14 @@ public class Version implements IVersion {
     }
 
     /**
+     * Setter for automatic simulation.
+     * @param autoSimulation Simulation to be added.
+     */
+    public void setAutoSimulation(IAutomaticSimulation autoSimulation) {
+        this.autoSimulation = autoSimulation;
+    }
+
+    /**
      * Getter for the exits of the building
      *
      * @return List of exits.

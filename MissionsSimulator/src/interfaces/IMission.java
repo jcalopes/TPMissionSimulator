@@ -6,6 +6,7 @@
 
 package interfaces;
 
+import exceptions.ElementNotFoundException;
 import exceptions.NullElementValueException;
 import exceptions.VersionAlreadyExistException;
 import linkedListSentinela.UnorderedLinkedList;
@@ -25,18 +26,17 @@ public interface IMission {
     /**
      * Start an automatic simulation with the information of the building, target and enemies
      * from a specific version.
-     * @param codMission Mission to start simulation.
      * @param version Version of the mission.
      */
-    public void startAutomaticSimulation(String codMission,int version);
+    public void startAutomaticSimulation(int version) 
+            throws ElementNotFoundException,NullElementValueException;
     
     /**
      * Start a manual simulation with the information of the building, target and enemies
      * from a specific version.
-     * @param codMission Mission to start simulation.
      * @param version Version of the mission.
      */
-    public void startManualSimulation(String codMission,int version);
+    public void startManualSimulation(int version);
     
     /**
      * Add a new version of this mission.

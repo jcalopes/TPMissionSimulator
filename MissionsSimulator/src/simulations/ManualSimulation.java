@@ -8,6 +8,7 @@ package simulations;
 import interfaces.IDivision;
 import interfaces.IManualSimulation;
 import java.util.Iterator;
+import missions.Division;
 
 /**
  * This class store the information about a manual simulation that can be
@@ -103,7 +104,7 @@ public class ManualSimulation extends Simulation implements IManualSimulation, C
         info += "\n PowerUps utilizados: ";
         info += "\n Vida 100%: " + !this.hasRestoreLife();
         info += "\n Recuperar Último Dano: " + !this.hasRecoverDamage();
-        Iterator<IDivision> sim = this.getPath().iterator();
+        Iterator<Division> sim = this.getPath().iterator();
         info += "\n Trajeto: \n";
         while (sim.hasNext()) {
             info += sim.next();

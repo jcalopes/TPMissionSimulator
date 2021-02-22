@@ -8,6 +8,7 @@ package simulations;
 import interfaces.IAutomaticSimulation;
 import interfaces.IDivision;
 import java.util.Iterator;
+import missions.Division;
 
 /**
  * /**
@@ -33,7 +34,7 @@ public class AutomaticSimulation extends Simulation implements IAutomaticSimulat
         String info = "";
         info += "\n Vida Restante:" + this.getRemainingLife();
         info += "\n Missão Sucedida: " + this.isSuccess();
-        Iterator<IDivision> sim = this.getPath().iterator();
+        Iterator<Division> sim = this.getPath().iterator();
         info += "\n Trajeto: \n";
         while (sim.hasNext()) {
             info += sim.next();
