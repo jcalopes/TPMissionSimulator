@@ -25,10 +25,7 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import missions.Mission;
-import missions.Version;
 import org.json.simple.parser.ParseException;
 import readWriteJson.ImporterData;
 
@@ -112,10 +109,15 @@ public class Menu {
                     break;
 
                 case 8:
-                    System.out.println(this.missions.toString());
+                    System.out.println(this.missions.getAllMissionsByCode());
                     break;
                 case 9:
+                    try {
+                        showExportManualSimulations();
+                    } catch (ElementNotFoundException | NullElementValueException ex) {
+                        System.out.println(ex + "\n Dados inválidos.");}
                     break;
+
                 default:
                     System.out.println("Introduza valores entre 0-7");
             }
@@ -231,5 +233,31 @@ public class Menu {
         
         System.out.println(this.missions.getMissions().getElement(new Mission(mission)));
     } 
+    
+    public void showExportManualSimulations() throws ElementNotFoundException, NullElementValueException{
+        System.out.println("\n Selecione uma missão:");
+        Iterator<IMission> missions=this.missions.getMissions().iterator();
+        while (missions.hasNext()) {
+            System.out.println("\n    "+missions.next().getCodMission());            
+        }
+        
+        Scanner inputMission = new Scanner(System.in, "latin1");
+        Scanner inputVersion = new Scanner(System.in, "latin1");
+        
+        System.out.println("\n Missão: ");
+        String choosenMission=inputMission.nextLine();
+        IMission mission=new Mission(choosenMission);
+        mission=this.missions.getMissions().getElement(mission);
+        
+        Iterator<IVersion> versions=mission.getVersions().iterator();
+        System.out.println("\n Selecione uma versão:");
+        while(versions.hasNext()){
+            System.out.println("\n    "+versions.next().getCodVersion());
+        }
+        System.out.println("\n Versão: ");
+        int version=inputVersion.nextInt();
+        
+        System.out.println(this.missions.getManualSimulationsResults(choosenMission, version));
+    }
  
 }
