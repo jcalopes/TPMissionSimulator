@@ -37,16 +37,17 @@ public class Menu {
 
     private static String menu = "\n ********Simulador de Missões********"
             + "\n Selecione uma opção:"
-            + "1 - Importar missão"
-            + "2 - Apresentar Mapas Dísponiveis"
-            + "3 - Iniciar Simulação Automática"
-            + "4 - Iniciar Simulação Manual"
-            + "5 - Apresentar Resultados Manuais"
-            + "6 - Apresentar Resultados Automáticos"
-            + "7 - Consultar Informação de uma Missão"
-            + "8 - Apresentar todas as missões"
-            + "9 - Exportar simulações manuais"
-            + "0 - Sair";
+            + "\n  1 - Importar missão"
+            + "\n  2 - Apresentar Mapas Disponiveis"
+            + "\n  3 - Iniciar Simulação Automática"
+            + "\n  4 - Iniciar Simulação Manual"
+            + "\n  5 - Apresentar Resultados Manuais"
+            + "\n  6 - Apresentar Resultados Automáticos"
+            + "\n  7 - Consultar Informação de uma Missão"
+            + "\n  8 - Apresentar todas as missões"
+            + "\n  9 - Exportar simulações manuais"
+            + "\n  0 - Sair"
+            + "\n ******************************";
     private MissionsManagement missions;
 
     public Menu(MissionsManagement missions) {
@@ -64,7 +65,7 @@ public class Menu {
             try {
                 choice = input.nextInt();
             } catch (InputMismatchException ex) {
-                System.out.println("Introduza valores entre 0-7");
+                choice=-1;
             }
             switch (choice) {
                 case 0:
@@ -93,6 +94,10 @@ public class Menu {
                     break;
 
                 case 4:
+                    try {
+                        showStartManualSimulation();
+                    } catch (ElementNotFoundException | NullElementValueException ex) {
+                        System.out.println(ex + "\n Dados inválidos.");}
                     break;
                 case 5:
                     try {
@@ -136,30 +141,30 @@ public class Menu {
             InvalidOperationException, VersionAlreadyExistException, NoDivisionsException,
             DivisionsClosedException, NoTargetDefinedException {
 
-        System.out.println("\n Mapas disponiveis:");
         Scanner inputMap = new Scanner(System.in, "latin1");
 
         System.out.println("\n Mapas disponiveis para carregar:");
         File arquivo = new File("Mapas");
         File[] files = arquivo.listFiles();
         if (files.length == 0) {
-            System.out.println("Sem mapas dísponiveis.Introduza no diretorio Mapas.");
+            System.out.println("Sem mapas disponiveis.Introduza no diretorio Mapas.");
         } else {
             for (File file : files) {
                 System.out.println("    " + file);
             }
 
-            System.out.println("\n Introduza o mapa a carregar:");
-            ImporterData.importMission(inputMap.nextLine());
+            System.out.println("\n Introduza o mapa a carregar (ex:Mapas/exemplo.json): ");
+            this.missions.importMission(inputMap.nextLine());
+            System.out.println("\n Mapa Importado com sucesso!");
         }
     }
     
     public String showAvailableMaps(){
         if(this.missions.getMissions().isEmpty()){
-            return "Sem mapas disponíveis.Carregue uma missão.";
+            return "Sem mapas disponíveis.Carregue uma missão para o simulador.";
         }
         else{
-            String result="\n Mapas:";
+            String result="\n Mapas: \n    Origem ---Danos do inimigos-->Destino \n";
             Iterator<IMission> missions=this.missions.getMissions().iterator();
             while(missions.hasNext()){
                 IMission currentMission=missions.next();
@@ -169,128 +174,184 @@ public class Menu {
                     IVersion currentVersion=versions.next();
                     result+="\n Versão: "+currentVersion.getCodVersion();
                     try {
-                        
-                        result+="\n "+ currentVersion.printMap();
-                    } catch (NullElementValueException | ElementNotFoundException  ex) {}
+
+                        result += "\n " + currentVersion.printMap();
+                    } catch (NullElementValueException | ElementNotFoundException ex) {
+                    }
                 }
+                 result+="\n ---------------------------------";
             }
-             return result;
-        }      
+            return result;
+        }
     }
-    
-    public void showManualSimulations() throws ElementNotFoundException, NullElementValueException{
-        System.out.println("\n Selecione uma missão:");
-        Iterator<IMission> missions=this.missions.getMissions().iterator();
-        while (missions.hasNext()) {
-            System.out.println("\n    "+missions.next().getCodMission());            
+
+    public void showManualSimulations() throws ElementNotFoundException, NullElementValueException {
+        if (this.missions.getMissions().size() == 0) {
+            System.out.println("Não existem missões disponiveis.Carregue um mapa para o simulador.");
+        } else {
+            System.out.println("\n Missões Disponiveis:");
+            Iterator<IMission> missions = this.missions.getMissions().iterator();
+            while (missions.hasNext()) {
+                System.out.println("\n    " + missions.next().getCodMission());
+            }
+
+            Scanner inputMission = new Scanner(System.in, "latin1");
+            Scanner inputVersion = new Scanner(System.in, "latin1");
+            System.out.println("\n Missão: ");
+            String mission = inputMission.nextLine();
+
+            IMission choosenMission = this.missions.getMissions().getElement(new Mission(mission));
+            Iterator<IVersion> versions = choosenMission.getVersions().iterator();
+            System.out.println("\n Versões Disponiveis:");
+            while (versions.hasNext()) {
+                System.out.println("\n    " + versions.next().getCodVersion());
+            }
+            System.out.println("\n Versão: ");
+            int version = inputVersion.nextInt();
+
+            System.out.println(this.missions.getManualSimulationsResults(mission, version));
         }
-        
-        Scanner inputMission = new Scanner(System.in, "latin1");
-        Scanner inputVersion = new Scanner(System.in, "latin1");
-        
-        String mission=inputMission.nextLine();
-        
-        IMission choosenMission=this.missions.getMissions().getElement(new Mission(mission));
-        Iterator<IVersion> versions=choosenMission.getVersions().iterator();
-        System.out.println("\n Selecione uma versão:");
-        while(versions.hasNext()){
-            System.out.println("\n    "+versions.next().getCodVersion());
-        }
-        System.out.println("\n Versão: ");
-        int version=inputVersion.nextInt();
-        
-        System.out.println(this.missions.getManualSimulationsResults(mission, version));  
     }
-    
-     public void showAutomaticSimulations() throws ElementNotFoundException, NullElementValueException{
-        System.out.println("\n Selecione uma missão:");
-        Iterator<IMission> missions=this.missions.getMissions().iterator();
-        while (missions.hasNext()) {
-            System.out.println("\n    "+missions.next().getCodMission());            
+
+    public void showAutomaticSimulations() throws ElementNotFoundException, NullElementValueException {
+        if (this.missions.getMissions().size() == 0) {
+            System.out.println("Não existem missões disponiveis.Carregue um mapa para o simulador.");
+        } else {
+            System.out.println("\n Missões Disponiveis:");
+            Iterator<IMission> missions = this.missions.getMissions().iterator();
+            while (missions.hasNext()) {
+                System.out.println("\n    " + missions.next().getCodMission());
+            }
+
+            Scanner inputMission = new Scanner(System.in, "latin1");
+            Scanner inputVersion = new Scanner(System.in, "latin1");
+
+            System.out.println("\n Missão: ");
+            String mission = inputMission.nextLine();
+
+            IMission choosenMission = this.missions.getMissions().getElement(new Mission(mission));
+            Iterator<IVersion> versions = choosenMission.getVersions().iterator();
+            System.out.println("\n Simulações Automáticas: ");
+            while (versions.hasNext()) {
+                IVersion currentVersion = versions.next();
+                System.out.println("\n-------------" + currentVersion.getCodVersion() + "-------------");
+                if(currentVersion.getAutoSimulation()==null){
+                    System.out.println("Simulação Automática não realizada.");}
+                else{
+                    System.out.println(currentVersion.getAutoSimulation().toString());}
+                System.out.println("\n--------------------------");
+            }
         }
-        
-        Scanner inputMission = new Scanner(System.in, "latin1");
-        Scanner inputVersion = new Scanner(System.in, "latin1");
-        
-        System.out.println("\n Missão: ");
-        String mission=inputMission.nextLine();
-        
-        IMission choosenMission=this.missions.getMissions().getElement(new Mission(mission));
-        Iterator<IVersion> versions=choosenMission.getVersions().iterator();
-         System.out.println("\n Simulações Automáticas: ");
-        while(versions.hasNext()){
-            IVersion currentVersion=versions.next();
-            System.out.println("\n-------------"+currentVersion.getCodVersion()+"-------------");
-            System.out.println(currentVersion.getAutoSimulation().toString());
-            System.out.println("\n--------------------------");
-        }    
     }
-     
-    public void showMissionDetails() throws ElementNotFoundException, NullElementValueException{
-        System.out.println("\n Selecione uma missão:");
-        Iterator<IMission> missions=this.missions.getMissions().iterator();
-        while (missions.hasNext()) {
-            System.out.println("\n    "+missions.next().getCodMission());            
+
+    public void showMissionDetails() throws ElementNotFoundException, NullElementValueException {
+        if (this.missions.getMissions().size() == 0) {
+            System.out.println("Não existem missões disponiveis.Carregue um mapa para o simulador.");
+        } else {
+            System.out.println("\n Missoes Disponiveis:");
+            Iterator<IMission> missions = this.missions.getMissions().iterator();
+            while (missions.hasNext()) {
+                System.out.println("\n    " + missions.next().getCodMission());
+            }
+
+            Scanner inputMission = new Scanner(System.in, "latin1");
+            System.out.println("\n Missão: ");
+            String mission = inputMission.nextLine();
+
+            System.out.println(this.missions.getMissions().getElement(new Mission(mission)));
         }
-        
-        Scanner inputMission = new Scanner(System.in, "latin1");
-        System.out.println("\n Missão: ");
-        String mission=inputMission.nextLine();
-        
-        System.out.println(this.missions.getMissions().getElement(new Mission(mission)));
-    } 
-    
-    public void showExportManualSimulations() throws ElementNotFoundException, NullElementValueException{
-        System.out.println("\n Selecione uma missão:");
-        Iterator<IMission> missions=this.missions.getMissions().iterator();
-        while (missions.hasNext()) {
-            System.out.println("\n    "+missions.next().getCodMission());            
-        }
-        
-        Scanner inputMission = new Scanner(System.in, "latin1");
-        Scanner inputVersion = new Scanner(System.in, "latin1");
-        
-        System.out.println("\n Missão: ");
-        String choosenMission=inputMission.nextLine();
-        IMission mission=new Mission(choosenMission);
-        mission=this.missions.getMissions().getElement(mission);
-        
-        Iterator<IVersion> versions=mission.getVersions().iterator();
-        System.out.println("\n Selecione uma versão:");
-        while(versions.hasNext()){
-            System.out.println("\n    "+versions.next().getCodVersion());
-        }
-        System.out.println("\n Versão: ");
-        int version=inputVersion.nextInt();
-        
-        System.out.println(this.missions.getManualSimulationsResults(choosenMission, version));
     }
-    
-    public void showStartAutomaticSimulation() throws ElementNotFoundException, NullElementValueException{
-        System.out.println("\n Selecione uma missão:");
-        Iterator<IMission> missions=this.missions.getMissions().iterator();
-        while (missions.hasNext()) {
-            System.out.println("\n    "+missions.next().getCodMission());            
+
+    public void showExportManualSimulations() throws ElementNotFoundException, NullElementValueException {
+        if (this.missions.getMissions().size() == 0) {
+            System.out.println("Não existem missões disponiveis.Carregue um mapa para o simulador.");
+        } else {
+            System.out.println("\n Missoes Disponiveis:");
+            Iterator<IMission> missions = this.missions.getMissions().iterator();
+            while (missions.hasNext()) {
+                System.out.println("\n    " + missions.next().getCodMission());
+            }
+
+            Scanner inputMission = new Scanner(System.in, "latin1");
+            Scanner inputVersion = new Scanner(System.in, "latin1");
+
+            System.out.println("\n Missão: ");
+            String choosenMission = inputMission.nextLine();
+            IMission mission = new Mission(choosenMission);
+            mission = this.missions.getMissions().getElement(mission);
+
+            Iterator<IVersion> versions = mission.getVersions().iterator();
+            System.out.println("\n Versões Disponiveis:");
+            while (versions.hasNext()) {
+                System.out.println("\n    " + versions.next().getCodVersion());
+            }
+            System.out.println("\n Versão: ");
+            int version = inputVersion.nextInt();
+
+            System.out.println(this.missions.getManualSimulationsResults(choosenMission, version));
         }
-        
-        Scanner inputMission = new Scanner(System.in, "latin1");
-        Scanner inputVersion = new Scanner(System.in, "latin1");
-         
-        System.out.println("\n Missão: ");
-        String choosenMission=inputMission.nextLine();
-        
-        IMission mission=new Mission(choosenMission);
-        mission=this.missions.getMissions().getElement(mission);
-        Iterator<IVersion> versions=mission.getVersions().iterator();
-        
-        System.out.println("\n Selecione uma versão:");
-        while(versions.hasNext()){
-            System.out.println("\n    "+versions.next().getCodVersion());
-        }
-        System.out.println("\n Versão: ");
-        int version=inputVersion.nextInt();
-        
-        mission.startAutomaticSimulation(version);       
     }
- 
+
+    public void showStartAutomaticSimulation() throws ElementNotFoundException, NullElementValueException {
+        if (this.missions.getMissions().size() == 0) {
+            System.out.println("Não existem missões disponiveis.Carregue um mapa para o simulador.");
+        } else {
+            System.out.println("\n Missoes Disponiveis:");
+            Iterator<IMission> missions = this.missions.getMissions().iterator();
+            while (missions.hasNext()) {
+                System.out.println("\n    " + missions.next().getCodMission());
+            }
+
+            Scanner inputMission = new Scanner(System.in, "latin1");
+            Scanner inputVersion = new Scanner(System.in, "latin1");
+
+            System.out.println("\n Missão: ");
+            String choosenMission = inputMission.nextLine();
+
+            IMission mission = new Mission(choosenMission);
+            mission = this.missions.getMissions().getElement(mission);
+            Iterator<IVersion> versions = mission.getVersions().iterator();
+
+            System.out.println("\n Versões Disponiveis:");
+            while (versions.hasNext()) {
+                System.out.println("\n    " + versions.next().getCodVersion());
+            }
+            System.out.println("\n Versão: ");
+            int version = inputVersion.nextInt();
+
+            mission.startAutomaticSimulation(version);
+        }
+
+    }
+
+    public void showStartManualSimulation() throws ElementNotFoundException, NullElementValueException{
+        if (this.missions.getMissions().size() == 0) {
+            System.out.println("Não existem missões disponiveis.Carregue um mapa para o simulador.");
+        } else {
+            System.out.println("\n Missoes Disponiveis:");
+            Iterator<IMission> missions = this.missions.getMissions().iterator();
+            while (missions.hasNext()) {
+                System.out.println("\n    " + missions.next().getCodMission());
+            }
+
+            Scanner inputMission = new Scanner(System.in, "latin1");
+            Scanner inputVersion = new Scanner(System.in, "latin1");
+
+            System.out.println("\n Missão: ");
+            String choosenMission = inputMission.nextLine();
+
+            IMission mission = new Mission(choosenMission);
+            mission = this.missions.getMissions().getElement(mission);
+            Iterator<IVersion> versions = mission.getVersions().iterator();
+
+            System.out.println("\n Versões Disponiveis:");
+            while (versions.hasNext()) {
+                System.out.println("\n    " + versions.next().getCodVersion());
+            }
+            System.out.println("\n Versão: ");
+            int version = inputVersion.nextInt();
+
+            mission.startManualSimulation(version);
+        }
+    }
 }

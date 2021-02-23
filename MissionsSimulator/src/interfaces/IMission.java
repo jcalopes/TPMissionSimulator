@@ -36,7 +36,7 @@ public interface IMission {
      * from a specific version.
      * @param version Version of the mission.
      */
-    public void startManualSimulation(int version);
+    public void startManualSimulation(int version)throws ElementNotFoundException,NullElementValueException ;
     
     /**
      * Add a new version of this mission.

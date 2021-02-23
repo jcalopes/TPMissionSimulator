@@ -43,11 +43,11 @@ public class ExporterData {
             JSONObject jSimulacaoManual=new JSONObject();
             jSimulacaoManual.put("Sucesso", current.isSuccess());
             jSimulacaoManual.put("PontosVida",current.getRemainingLife());
-            if(!current.hasRecoverDamage()){
+            if(!current.getPowerUps().hasRecoverDamage()){
                 jSimulacaoManual.put("PowerUp", "Recover Last Damage");
             }
 
-            if (!current.hasRestoreLife()) {
+            if (!current.getPowerUps().hasRestoreLife()) {
                 jSimulacaoManual.put("PowerUp", "Restore Life");
             }    
             

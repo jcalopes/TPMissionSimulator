@@ -5,7 +5,6 @@
  */
 package simulations;
 
-import interfaces.IDivision;
 import interfaces.IManualSimulation;
 import java.util.Iterator;
 import missions.Division;
@@ -15,60 +14,23 @@ import missions.Division;
  * performed in the context of one mission.
  */
 public class ManualSimulation extends Simulation implements IManualSimulation, Comparable<IManualSimulation> {
-
-    private boolean restoreLife;//powerUp restore entire life
-    private boolean recoverDamage;//powerUp recover from last damage
-
+    private PowerUps powerUps;
+    
     public ManualSimulation() {
         super();
-        this.restoreLife = true;
-        this.recoverDamage = true;
+        this.powerUps=new PowerUps();
     }
 
     /**
-     * Check if is available the powerUp to restore entire life.
-     *
-     * @return true if the powerUp is available to use in the simulation.
-     * @return false if the powerUp is not already available to use in the
-     * simulation.
+     * Getter for the powerups.
+     * @return PowerUps Details.
      */
-    @Override
-    public boolean hasRestoreLife() {
-        return restoreLife;
+    public PowerUps getPowerUps() {
+        return powerUps;
     }
 
-    /**
-     * Change the permission of use the powerUp to recover entire life.
-     *
-     * @param restoreLife
-     */
-    @Override
-    public void setRestoreLife(boolean restoreLife) {
-        this.restoreLife = restoreLife;
-    }
-
-    /**
-     * Check if is available the powerUp to recover from last damage.
-     *
-     * @return true if the powerUp is available to use in the simulation.
-     * @return false if the powerUp is not already available to use in the
-     * simulation.
-     */
-    @Override
-    public boolean hasRecoverDamage() {
-        return recoverDamage;
-    }
-
-    /**
-     * Change the permission of use the powerUp recover from last damage.
-     *
-     * @param recoverDamage
-     */
-    @Override
-    public void setRecoverDamage(boolean recoverDamage) {
-        this.recoverDamage = recoverDamage;
-    }
-
+    
+   
     /**
      * Compare with another manual simulation by their life points.
      *
@@ -101,9 +63,6 @@ public class ManualSimulation extends Simulation implements IManualSimulation, C
         String info = "";
         info += "\n Vida Restante:" + this.getRemainingLife();
         info += "\n Missão Sucedida: " + this.isSuccess();
-        info += "\n PowerUps utilizados: ";
-        info += "\n Vida 100%: " + !this.hasRestoreLife();
-        info += "\n Recuperar Último Dano: " + !this.hasRecoverDamage();
         Iterator<Division> sim = this.getPath().iterator();
         info += "\n Trajeto: \n";
         while (sim.hasNext()) {

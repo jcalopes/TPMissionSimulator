@@ -82,12 +82,12 @@ public class Division implements IDivision{
      * @throws NullElementValueException If the enemy is null.
      */
     @Override
-    public void removeEnemy(Enemy enemy) throws ElementNotFoundException, NullElementValueException {
+    public Enemy removeEnemy(Enemy enemy) throws ElementNotFoundException, NullElementValueException {
         if(enemy==null){
             throw new NullElementValueException("The enemy value is null");
         }
-        this.enemies.remove(enemy);
         this.setTotalDamage(totalDamage-enemy.getDamage());
+        return this.enemies.remove(enemy);     
     }
     
     /**

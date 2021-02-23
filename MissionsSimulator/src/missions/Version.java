@@ -224,6 +224,8 @@ public class Version implements IVersion {
                 }
             }
         }
+        info+="\n\nEntradas: "+this.getEntries().toString();
+        info+="\n\nSaídas: "+this.getExits().toString();
         return info;
     }
 

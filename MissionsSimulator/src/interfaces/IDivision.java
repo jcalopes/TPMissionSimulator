@@ -46,7 +46,7 @@ public interface IDivision{
      * @param enemy Enemy to be removed.
      * @throws NullElementValueException If the enemy is null.
      */
-    public void removeEnemy(Enemy enemy) throws ElementNotFoundException, NullElementValueException;
+    public Enemy removeEnemy(Enemy enemy) throws ElementNotFoundException, NullElementValueException;
     
     /**
      * Getter for the total damage which the enemies into this division can make.

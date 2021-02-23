@@ -18,7 +18,7 @@ public class Simulator {
     public static void main(String[] args){
         MissionsManagement missions=new Missions();
         
-//        Menu menu=new Menu(missions);
-//        menu.start();
+        Menu menu=new Menu(missions);
+        menu.start();
     }  
 }
