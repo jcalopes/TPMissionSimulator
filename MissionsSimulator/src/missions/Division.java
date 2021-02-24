@@ -149,6 +149,11 @@ public class Division implements IDivision{
         info+=this.getName();
         return info;
     }
+
+    public void setEnemies(UnorderedLinkedList<Enemy> enemies) {
+        this.enemies = enemies;
+    }
+    
     
     
 }

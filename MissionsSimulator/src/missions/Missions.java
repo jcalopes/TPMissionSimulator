@@ -148,7 +148,7 @@ public class Missions implements MissionsManagement {
             Iterator<IManualSimulation> sim = version.getManualSimulation().iterator();
             while (sim.hasNext()) {
                 info += "\n-------------- Versão:" + codVersion + "--------------";
-                info += sim.next().toString();
+                info += "\n" +sim.next().toString();
                 info += "\n-----------------------------------";
             }
             return info;

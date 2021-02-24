@@ -6,6 +6,7 @@
 package missions;
 
 import exceptions.ElementNotFoundException;
+import exceptions.EnemyAlreadyExistException;
 import exceptions.InvalidOperationException;
 import exceptions.NoPathAvailableException;
 import exceptions.NullElementValueException;
@@ -18,6 +19,8 @@ import interfaces.IVersion;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import linkedListSentinela.UnorderedLinkedList;
 import simulations.AutomaticSimulation;
 import simulations.ManualSimulation;
@@ -231,13 +234,62 @@ public class Mission implements IMission, Comparable<IMission> {
        * @param version Version to be updated.
        * @return Version with new enemies replaced.
        */
-      private IVersion moveEnemies(IVersion version){
-          
-          for(int i=0;i<version.getBuilding().size();i++){
-              if(version.getBuilding().getVertex(i).getTotalDamage()>0){
-                  version.getBuilding().getVertex(i).
-              }
-          }
+     private IVersion moveEnemies(IVersion version) throws NullElementValueException, ElementNotFoundException, EnemyAlreadyExistException {
+        boolean enemyMoved = false;
+        System.out.println("\n Movimentações dos inimigos:");
+        UnorderedLinkedList<Enemy> visited=new UnorderedLinkedList<>();
+        
+        for (int i = 0; i < version.getBuilding().size(); i++) {          
+            if (version.getBuilding().getVertex(i).getTotalDamage() > 0) {
+                UnorderedLinkedList<Enemy> moved=new UnorderedLinkedList<>();
+                Iterator<Enemy> enemies = version.getBuilding().getVertex(i).getEnemies().iterator();          
+                while (enemies.hasNext()) {
+                    enemyMoved = false;
+                    Enemy currentEnemy=enemies.next();
+                    if(!visited.contains(currentEnemy))
+                        visited.addToRear(currentEnemy);
+                    else
+                        enemyMoved=true;
+                    while (!enemyMoved) {
+                        UnorderedLinkedList<Division> neighbors=version.getBuilding().getNeighbors(version.getBuilding().getVertex(i));
+                        Random random=new Random();
+                        int randomIndex = random.nextInt(neighbors.size());
+                        Iterator<Division> it=neighbors.iterator();
+                        int j=0;
+                        Division choosenDivision=it.next();
+                        while(it.hasNext() && j!=randomIndex){
+                            j++;
+                            choosenDivision=it.next();
+                        }
+                        
+                        version.getBuilding().getVertex(choosenDivision).addEnemy(currentEnemy);
+                        System.out.println("\n    Inimigo:"+currentEnemy.getName());
+                        System.out.println("\n   "+version.getBuilding().getVertex(i).getName()+" --> "
+                                +version.getBuilding().getVertex(choosenDivision).getName());
+                        enemyMoved = true;  
+                        moved.addToRear(currentEnemy);
+                    }    
+                }
+                Iterator<Enemy>enemiesMoved=moved.iterator();
+                while(enemiesMoved.hasNext()){
+                    version.getBuilding().getVertex(i).removeEnemy(enemiesMoved.next());
+                }
+            }
+        }
+        
+        for (int i = 0; i < version.getBuilding().size(); i++) {
+            for (int j = 0; j < version.getBuilding().size(); j++) {
+                if(version.getBuilding().isNeighbor(version.getBuilding().getVertex(i),
+                                version.getBuilding().getVertex(j))){
+                    try {
+                        version.getBuilding().setEdgeCost(version.getBuilding().getVertex(i),
+                                version.getBuilding().getVertex(j),version.getBuilding().getVertex(j).getTotalDamage());
+                        
+                    } catch (InvalidOperationException ex) {System.out.println("error3");}
+                }
+            }
+        }
+        
           return version;
       }
       
@@ -268,7 +320,7 @@ public class Mission implements IMission, Comparable<IMission> {
         IVersion versionOrigin = new Version();
         versionOrigin.setCodVersion(codVersion);
         versionOrigin = this.getVersions().getElement(versionOrigin);
-        
+      
         IVersion version=cloneVersion(versionOrigin);       
                 
         IManualSimulation sim = new ManualSimulation();
@@ -287,14 +339,16 @@ public class Mission implements IMission, Comparable<IMission> {
         Division lastDivision = null;
         while (!alreadyOut) {
             if(alreadyIn){
-                version=moveEnemies(version);
+                try {
+                    version=moveEnemies(version);
+                } catch (EnemyAlreadyExistException ex) {System.out.println("eror4");}
             }          
             System.out.println("\n" + version.printMap());           
             System.out.println("\n ------------------Detalhes Atuais-----------------------------");
             System.out.println("PowerUps: ");
             System.out.println("\n  Recuperar dano da divisão: " + sim.getPowerUps().getRecoverLastDamageDivision());
             System.out.println("  100% vida: " + sim.getPowerUps().getRestoreLifeDivision());
-            System.out.println("PowerUps disponiveis: ");
+            System.out.println("\n PowerUps disponiveis: ");
             if(sim.getPowerUps().hasRecoverDamage())
                 System.out.println("\n  Recuperar dano da divisão");
             if(sim.getPowerUps().hasRestoreLife())
@@ -318,6 +372,7 @@ public class Mission implements IMission, Comparable<IMission> {
                     try {
                         version.getEntries().getElement(currentDivision);
                         alreadyIn = true;
+                        path.addToRear(currentDivision);
                         lastDivision = currentDivision;
                         if (currentDivision.equals(version.getTarget().getDivision())) {
                             alreadyHasTarget = true;
@@ -350,7 +405,7 @@ public class Mission implements IMission, Comparable<IMission> {
                             alreadyHasTarget = true;
                             System.out.println("\n Já encontrou o alvo. Dirija-se a uma saída!");
                         }
-                        int damage = (int) version.getBuilding().getEdgeCost(lastDivision, currentDivision);
+                        int damage = (int) currentDivision.getTotalDamage();
 
                         sim.setRemainingLife(sim.getRemainingLife() - damage);
                         System.out.println("\n - " + damage + " pontos de vida");
@@ -379,7 +434,7 @@ public class Mission implements IMission, Comparable<IMission> {
                     }
                 }
             }
-            System.out.println("------------------------------------------------");
+            System.out.println("\n------------------------------------------------");
         }
         sim.setPath(path);
         versionOrigin.getManualSimulation().add(sim);
