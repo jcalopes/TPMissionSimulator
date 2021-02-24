@@ -249,13 +249,13 @@ public class Version implements IVersion {
         while (exits.hasNext()) {
             info += "\n    " + exits.next().toString();
         }
-        info += "\n Simulação Automática: ";
+        info += "\n\n Simulação Automática: ";
         if (this.autoSimulation != null) {
             info += "\n" + this.autoSimulation.toString();
         } else {
             info += "\n    Sem simulação automática efetuada.";
         }
-        info += "\n Simulações Manuais: ";
+        info += "\n\n Simulações Manuais: ";
         if (this.getNumManualSimulations() == 0) {
             info += "\n    Sem simulações manuais efetuadas.";
         } else {

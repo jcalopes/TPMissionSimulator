@@ -238,7 +238,7 @@ public class Menu {
     }
 
     /**
-     * Show manual simulations interface. The user is able to perform manual simulation 
+     * Show manual simulations interface. The user is able to perform automatic simulation 
      * choosing the mission and the version.
      * @throws ElementNotFoundException
      * @throws NullElementValueException 
@@ -367,6 +367,7 @@ public class Menu {
             int version = inputVersion.nextInt();
 
             mission.startAutomaticSimulation(version);
+            System.out.println("\n Simulação Automática efetuada!");
         }
 
     }
