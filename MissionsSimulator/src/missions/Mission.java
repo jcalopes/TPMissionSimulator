@@ -203,10 +203,10 @@ public class Mission implements IMission, Comparable<IMission> {
             if (inputAnswer.nextLine().equals("sim")) {
                 System.out.println("\n Power Ups disponiveis:");
                 if (sim.getPowerUps().hasRecoverDamage()) {
-                    System.out.println("\n    1 - Recuperar dano efetuado desta divisão ");
+                    System.out.println("    1 - Recuperar dano efetuado desta divisão ");
                 }
                 if (sim.getPowerUps().hasRestoreLife()) {
-                    System.out.println("\n    2 - Recuperar vida total ");
+                    System.out.println("    2 - Recuperar vida total ");
                 }
                 System.out.println("\n Opcao: ");
                 answer = inputAnswer.nextInt();
@@ -349,9 +349,12 @@ public class Mission implements IMission, Comparable<IMission> {
             System.out.println("  100% vida: " + sim.getPowerUps().getRestoreLifeDivision());
             System.out.println("\nPowerUps disponiveis: ");
             if(sim.getPowerUps().hasRecoverDamage())
-                System.out.println("\n  Recuperar dano da divisão");
+                System.out.println("  Recuperar dano da divisão");
             if(sim.getPowerUps().hasRestoreLife())
                 System.out.println("  100% vida");
+            if(!sim.getPowerUps().hasRecoverDamage() && !sim.getPowerUps().hasRestoreLife() ){
+                System.out.println("  Sem PowerUps.");
+            }
             if(currentDivision!=null)System.out.println("\nDivisão Atual: " + currentDivision);
             System.out.println("\nAlvo: " + version.getTarget().getDivision());
             System.out.println("\nPontos de Vida restantes: " + sim.getRemainingLife());
