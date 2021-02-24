@@ -27,11 +27,8 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import missions.Mission;
 import org.json.simple.parser.ParseException;
-import readWriteJson.ImporterData;
 
 /**
  * This class show the user interface.
@@ -57,6 +54,9 @@ public class Menu {
         this.missions = missions;
     }
 
+    /**
+     * Show the functions which the user is able to do.
+     */
     public void start() {
         Boolean isRunning = true;
         Integer choice = 0;
@@ -146,6 +146,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Show the import function interface. Call function importer in order to load a new mission.
+     */
     public void showImport() throws IOException, FileNotFoundException, ParseException,
             NullElementValueException, RepeatedElementException, ElementNotFoundException,
             InvalidWeightValueException, NoEntriesException, EnemyAlreadyExistException,
@@ -170,6 +173,10 @@ public class Menu {
         }
     }
     
+    /**
+     * Show all maps available to perform simulations.
+     * @return Maps
+     */
     public String showAvailableMaps(){
         if(this.missions.getMissions().isEmpty()){
             return "Sem mapas disponíveis.Carregue uma missão para o simulador.";
@@ -196,6 +203,12 @@ public class Menu {
         }
     }
 
+    /**
+     * Show manual simulations interface. The user is able to perform manual simulation 
+     * choosing the mission and the version.
+     * @throws ElementNotFoundException 
+     * @throws NullElementValueException 
+     */
     public void showManualSimulations() throws ElementNotFoundException, NullElementValueException {
         if (this.missions.getMissions().size() == 0) {
             System.out.println("Não existem missões disponiveis.Carregue um mapa para o simulador.");
@@ -224,6 +237,12 @@ public class Menu {
         }
     }
 
+    /**
+     * Show manual simulations interface. The user is able to perform manual simulation 
+     * choosing the mission and the version.
+     * @throws ElementNotFoundException
+     * @throws NullElementValueException 
+     */
     public void showAutomaticSimulations() throws ElementNotFoundException, NullElementValueException {
         if (this.missions.getMissions().size() == 0) {
             System.out.println("Não existem missões disponiveis.Carregue um mapa para o simulador.");
@@ -255,6 +274,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Show all details about one mission inserted by the user.
+     * @throws ElementNotFoundException
+     * @throws NullElementValueException 
+     */
     public void showMissionDetails() throws ElementNotFoundException, NullElementValueException {
         if (this.missions.getMissions().size() == 0) {
             System.out.println("Não existem missões disponiveis.Carregue um mapa para o simulador.");
@@ -273,6 +297,13 @@ public class Menu {
         }
     }
 
+    /**
+     * Show export manual simulations interface. 
+     * @throws ElementNotFoundException
+     * @throws NullElementValueException
+     * @throws NoManualSimulationsException
+     * @throws IOException 
+     */
     public void showExportManualSimulations() throws ElementNotFoundException, NullElementValueException, NoManualSimulationsException, IOException {
         if (this.missions.getMissions().size() == 0) {
             System.out.println("Não existem missões disponiveis.Carregue um mapa para o simulador.");
@@ -303,6 +334,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Show automatic simulation interface.The user is able to perform an automatic simulation.
+     * @throws ElementNotFoundException
+     * @throws NullElementValueException 
+     */
     public void showStartAutomaticSimulation() throws ElementNotFoundException, NullElementValueException {
         if (this.missions.getMissions().size() == 0) {
             System.out.println("Não existem missões disponiveis.Carregue um mapa para o simulador.");
@@ -335,6 +371,11 @@ public class Menu {
 
     }
 
+    /**
+     * Show the manual simulation.The user is able to perform a manual simulation.
+     * @throws ElementNotFoundException
+     * @throws NullElementValueException 
+     */
     public void showStartManualSimulation() throws ElementNotFoundException, NullElementValueException{
         if (this.missions.getMissions().size() == 0) {
             System.out.println("Não existem missões disponiveis.Carregue um mapa para o simulador.");

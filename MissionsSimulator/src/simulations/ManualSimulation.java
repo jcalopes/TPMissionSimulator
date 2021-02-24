@@ -60,7 +60,7 @@ public class ManualSimulation extends Simulation implements IManualSimulation, C
      */
     @Override
     public String toString() {
-        String info = "";
+        String info = "\n-------------------------------------------------";
         info += "\n Vida Restante:" + this.getRemainingLife();
         info += "\n Missão Sucedida: " + this.isSuccess();
         Iterator<Division> sim = this.getPath().iterator();

@@ -100,7 +100,6 @@ public class Mission implements IMission, Comparable<IMission> {
      * Start an automatic simulation with the information of the building,
      * target and enemies from a specific version.
      *
-     * @param codMission Mission to start simulation.
      * @param codVersion Version of the mission.
      */
     @Override
@@ -312,8 +311,7 @@ public class Mission implements IMission, Comparable<IMission> {
      * Start a manual simulation with the information of the building, target
      * and enemies from a specific version.
      *
-     * @param codMission Mission to start simulation.
-     * @param version Version of the mission.
+     * @param codVersion Version of the mission.
      */
     @Override
     public void startManualSimulation(int codVersion) throws ElementNotFoundException, NullElementValueException {
