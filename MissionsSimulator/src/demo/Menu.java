@@ -13,6 +13,7 @@ import exceptions.InvalidOperationException;
 import exceptions.InvalidWeightValueException;
 import exceptions.NoDivisionsException;
 import exceptions.NoEntriesException;
+import exceptions.NoManualSimulationsException;
 import exceptions.NoTargetDefinedException;
 import exceptions.NullElementValueException;
 import exceptions.RepeatedElementException;
@@ -26,6 +27,8 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import missions.Mission;
 import org.json.simple.parser.ParseException;
 import readWriteJson.ImporterData;
@@ -109,24 +112,32 @@ public class Menu {
                     try {
                         showAutomaticSimulations();
                     } catch (ElementNotFoundException | NullElementValueException ex) {
-                        System.out.println(ex + "\n Dados inválidos.");}
+                        System.out.println(ex + "\n Dados inválidos.");
+                    }
                     break;
 
                 case 7:
                     try {
                         showMissionDetails();
                     } catch (ElementNotFoundException | NullElementValueException ex) {
-                         System.out.println(ex + "\n Dados inválidos.");}
+                        System.out.println(ex + "\n Dados inválidos.");
+                    }
                     break;
 
                 case 8:
                     System.out.println(this.missions.getAllMissionsByCode());
                     break;
                 case 9:
+
                     try {
                         showExportManualSimulations();
+                    } catch (NoManualSimulationsException ex) {
+                        System.out.println("\n Não existem simulações manuais associadas a esta versão da missao.");
+                    } catch (IOException ex) {
+                        System.out.println("Erro de exportação.");
                     } catch (ElementNotFoundException | NullElementValueException ex) {
-                        System.out.println(ex + "\n Dados inválidos.");}
+                        System.out.println(ex + "\n Dados inválidos.");
+                    }
                     break;
 
                 default:
@@ -262,7 +273,7 @@ public class Menu {
         }
     }
 
-    public void showExportManualSimulations() throws ElementNotFoundException, NullElementValueException {
+    public void showExportManualSimulations() throws ElementNotFoundException, NullElementValueException, NoManualSimulationsException, IOException {
         if (this.missions.getMissions().size() == 0) {
             System.out.println("Não existem missões disponiveis.Carregue um mapa para o simulador.");
         } else {
@@ -288,7 +299,7 @@ public class Menu {
             System.out.println("\n Versão: ");
             int version = inputVersion.nextInt();
 
-            System.out.println(this.missions.getManualSimulationsResults(choosenMission, version));
+            System.out.println(this.missions.exportManualSimulations(choosenMission, version));
         }
     }
 

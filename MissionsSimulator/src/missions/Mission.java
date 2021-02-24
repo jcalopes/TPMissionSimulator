@@ -19,8 +19,6 @@ import interfaces.IVersion;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import linkedListSentinela.UnorderedLinkedList;
 import simulations.AutomaticSimulation;
 import simulations.ManualSimulation;
@@ -179,12 +177,12 @@ public class Mission implements IMission, Comparable<IMission> {
      * @return ManualSimulation updated.
      */
     private IManualSimulation checkPowerUps(IManualSimulation sim, Division currentDivision) {
-        if (sim.getPowerUps().getRecoverLastDamageDivision().equals(currentDivision.getName())
+        if (!sim.getPowerUps().isRecoverLastDamageUsed() && sim.getPowerUps().getRecoverLastDamageDivision().equals(currentDivision.getName())
                 &&!sim.getPowerUps().hasRecoverDamage()) {
             System.out.println("Encontrado um Power Up! Recuperar do dano de uma divisão");
-            sim.getPowerUps().setRecoverDamage(true);
+            sim.getPowerUps().setRecoverLastDamage(true);
         }
-        if (sim.getPowerUps().getRestoreLifeDivision().equals(currentDivision.getName()) && 
+        if (!sim.getPowerUps().isRestoreLifeUsed() && sim.getPowerUps().getRestoreLifeDivision().equals(currentDivision.getName()) && 
                 !sim.getPowerUps().hasRestoreLife()) {
             System.out.println("Encontrado um Power Up! Vida 100%");
             sim.getPowerUps().setRestoreLife(true);
@@ -216,11 +214,13 @@ public class Mission implements IMission, Comparable<IMission> {
                 if (answer == 1 && sim.getPowerUps().hasRecoverDamage()) {
                     System.out.println("\n +" + currentDivision.getTotalDamage() + "pontos de vida");
                     sim.setRemainingLife(sim.getRemainingLife() + currentDivision.getTotalDamage());
-                    sim.getPowerUps().setRecoverDamage(false);
+                    sim.getPowerUps().setRecoverLastDamage(false);
+                    sim.getPowerUps().setRecoverLastDamageUsed(true);
                 } else if (answer == 2 && sim.getPowerUps().hasRestoreLife()) {
                     System.out.println("\n +" + (100-currentDivision.getTotalDamage()) + "pontos de vida");
                     sim.setRemainingLife(100);
                     sim.getPowerUps().setRestoreLife(false);
+                    sim.getPowerUps().setRestoreLifeUsed(true);
                 } else {
                     System.out.println("Resposta inválida!Nenhum power up acionado");
                 }
@@ -340,6 +340,7 @@ public class Mission implements IMission, Comparable<IMission> {
         while (!alreadyOut) {
             if(alreadyIn){
                 try {
+                    //Move enemies in the building in each agent moves.
                     version=moveEnemies(version);
                 } catch (EnemyAlreadyExistException ex) {System.out.println("eror4");}
             }          
@@ -348,7 +349,7 @@ public class Mission implements IMission, Comparable<IMission> {
             System.out.println("PowerUps: ");
             System.out.println("\n  Recuperar dano da divisão: " + sim.getPowerUps().getRecoverLastDamageDivision());
             System.out.println("  100% vida: " + sim.getPowerUps().getRestoreLifeDivision());
-            System.out.println("\n PowerUps disponiveis: ");
+            System.out.println("\nPowerUps disponiveis: ");
             if(sim.getPowerUps().hasRecoverDamage())
                 System.out.println("\n  Recuperar dano da divisão");
             if(sim.getPowerUps().hasRestoreLife())
@@ -365,11 +366,13 @@ public class Mission implements IMission, Comparable<IMission> {
                 System.out.println("A divisão não existe no edificio.Consulte no mapa as opções.");
                 currentDivision=lastDivision;
             }
-
+            //Division Inserted is valid
             if (validDivision) {
                 validDivision = false;
+                //If the agent is out of the building yet
                 if (!alreadyIn) {
                     try {
+                        //Check if the division is a valid entry
                         version.getEntries().getElement(currentDivision);
                         alreadyIn = true;
                         path.addToRear(currentDivision);
@@ -383,7 +386,9 @@ public class Mission implements IMission, Comparable<IMission> {
                             sim.setRemainingLife(sim.getRemainingLife() - currentDivision.getTotalDamage());
                             System.out.println("\nImpacto:   \n - " + currentDivision.getTotalDamage() + " pontos de vida");
                         }
+                        //Check if exist power ups inside the current division. 
                         sim=this.checkPowerUps(sim, currentDivision);
+                        //If the user has powerUps, ask if he want use them.
                         sim=this.usePowerUps(sim, currentDivision);
                         if (sim.getRemainingLife() <= 0) {
                             System.out.println("\n Missão Falhada.Terminaram os pontos de vida.");
@@ -394,12 +399,14 @@ public class Mission implements IMission, Comparable<IMission> {
                         System.out.println("\n Entrada não existe no edificio.Insira uma entrada válida.");
                         currentDivision=lastDivision;
                     }
+               //if the agent is already inside the building
                 } else {
                     if (!version.getBuilding().isNeighbor(lastDivision, currentDivision)) {
                         System.out.println("Movimentação Inválida!Não existe ligação entre as divisões.");
                         currentDivision=lastDivision;
                     } else {
                         path.addToRear(currentDivision);
+                        //Check if exist power ups inside the current division.
                         sim=this.checkPowerUps(sim, currentDivision);
                         if (currentDivision.getName().equals(version.getTarget().getDivision())) {
                             alreadyHasTarget = true;
@@ -410,6 +417,7 @@ public class Mission implements IMission, Comparable<IMission> {
                         sim.setRemainingLife(sim.getRemainingLife() - damage);
                         System.out.println("\n - " + damage + " pontos de vida");
                         
+                       //If the user has powerUps, ask if he want use them.
                         sim=this.usePowerUps(sim, currentDivision);
                         
                         if (sim.getRemainingLife() <= 0) {
@@ -417,6 +425,7 @@ public class Mission implements IMission, Comparable<IMission> {
                             sim.setSuccess(false);
                             alreadyOut = true;
                         }
+                        //If the current division is a valid exit, ask the user want to go out
                         if (!alreadyOut && version.getExits().contains(currentDivision)) {
                             System.out.println("\n Chegou a uma saída.Pretende sair do edificio?(sim/nao)");
                             if (!inputAnswer.nextLine().equals("nao")) {

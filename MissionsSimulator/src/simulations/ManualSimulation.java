@@ -71,7 +71,6 @@ public class ManualSimulation extends Simulation implements IManualSimulation, C
                 info += " --> ";
             }
         }
-        info += "-----------------------------------------------";
         return info;
     }
 }

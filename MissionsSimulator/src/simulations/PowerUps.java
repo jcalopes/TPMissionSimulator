@@ -12,14 +12,18 @@ package simulations;
 public class PowerUps {
     private boolean restoreLife;//powerUp restore entire life
     private String restoreLifeDivision;//Division where the powerUp is
-    private boolean recoverDamage;//powerUp recover from last damage
+    private boolean restoreLifeUsed;
+    private boolean recoverLastDamage;//powerUp recover from last damage
+    private boolean recoverLastDamageUsed;
     private String recoverLastDamageDivision;//Division where the powerUp is
     
     public PowerUps(){
         this.restoreLife = false;
-        this.recoverDamage = false;
+        this.recoverLastDamage = false;
         this.restoreLifeDivision=null;
         this.recoverLastDamageDivision=null;
+        this.restoreLifeUsed=false;
+        this.recoverLastDamageUsed=false;
     }
     
     /**
@@ -50,16 +54,16 @@ public class PowerUps {
      * simulation.
      */
     public boolean hasRecoverDamage() {
-        return recoverDamage;
+        return recoverLastDamage;
     }
 
     /**
      * Change the permission of use the powerUp recover from last damage.
      *
-     * @param recoverDamage
+     * @param recoverLastDamage
      */
-    public void setRecoverDamage(boolean recoverDamage) {
-        this.recoverDamage = recoverDamage;
+    public void setRecoverLastDamage(boolean recoverLastDamage) {
+        this.recoverLastDamage = recoverLastDamage;
     }
 
     /**
@@ -93,6 +97,23 @@ public class PowerUps {
     public String getRecoverLastDamageDivision() {
         return recoverLastDamageDivision;
     }
+
+    public boolean isRestoreLifeUsed() {
+        return restoreLifeUsed;
+    }
+
+    public boolean isRecoverLastDamageUsed() {
+        return recoverLastDamageUsed;
+    }
+
+    public void setRestoreLifeUsed(boolean restoreLifeUsed) {
+        this.restoreLifeUsed = restoreLifeUsed;
+    }
+
+    public void setRecoverLastDamageUsed(boolean recoverLastDamageUsed) {
+        this.recoverLastDamageUsed = recoverLastDamageUsed;
+    }
+ 
     
     @Override
     public String toString(){
